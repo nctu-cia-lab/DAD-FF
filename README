@@ -1,0 +1,72 @@
+Delay-Adjustable D-Flip-Flop (named DAD-FF) is a radiation-hardened component 
+where the robustness can be adjusted arbitrarily. Details can be found in the 
+paper, "DAD-FF: Hardening Designs by Delay-Adjustable D-Flip-Flop for Soft-
+Error-Rate Reduction", which appears in IEEE TVLSI. To make DAD-FF capable 
+of utilizing by other designers who are interested in radiation hardening,
+a baseline DAD-FF built upon NanGate FreePDK45 cell library is provided, as 
+described in DADFF_56ps.sp. This document explains the use of DAD-FF including
+the delay-time adjustment to meet your specification.
+
+
+How to build the sample DAD-FF: DADFF_56ps.sp?
+=======================================================
+- Include the NanGate FreePDK45 bulk 45nm open cell library in the DUT.sp file
+	.include '<dir>/NangateOpenCellLibrary_PDKv1_3_v2009_07/pre_spice/NangateOpenCellLibrary_pre.sp'
+	.include '<dir>/NangateOpenCellLibrary_PDKv1_3_v2009_07/technology/models/hspice/tran_models/models_nom/NMOS_VTL.inc'
+	.include '<dir>/NangateOpenCellLibrary_PDKv1_3_v2009_07/technology/models/hspice/tran_models/models_nom/PMOS_VTL.inc'
+	
+- Conduct SPICE simulation with DUT.sp 
+	.> hspice DUT.sp
+	
+	
+	
+Important Nodes in DAD-FF
+=======================================================
+- After understanding the significance of these nodes, the robustness of DAD-FF can be evaluated and therefore can be redesigned by yourself.
+
+- Please refer to Fig. 7 in "DAD-FF: Hardening Designs by Delay-Adjustable D-Flip-Flop for Soft-Error-Rate Reduction", which appears in IEEE TVLSI.
+
+- In DUT.sp, DAD-FF is imported as a subcircuit: XDADFF D CLK Di_1 Di_2 Q QN Qo_1 Qo_2 VDD VSS DADFF_56ps, where
+	Di_1 (node D in latch 1) is the input of the original data path,
+	Di_2 (node D in SERL) is the input of the delayed date path,
+	Qo_1 (node QA in latch 2) is the output of the original data path,
+	Qo_2 (node QA in latch 3) is the output of the delayed data path.
+	
+	
+	
+How to evaluate the delay-time generation and soft-error detection of DAD-FF?
+=======================================================
+- Please refer to the waveform in DUT.jpg file.
+	v(qo_1) and v(qo_2) are the outputs of the original data path and delayed data path.		
+	v(di_1) and v(di_2) are the inputs of the original data path and delayed data path.
+	v(q) is the output input of DAD-FF.
+	v(d) is the input input of DAD-FF.
+	v(clk) is the clock of DAD-FF.
+	
+- Delay times of DAD-FF can be measured by comparing v(di_1) and v(di_2) as illustrated in the time interval t=3ns to t=6ns.
+
+- Given a SET occurring on v(d) at t=6ns, such SET will be captured by DAD-FF according to the different value on v(qo_1) and v(qo_2).
+
+- Summary:
+	Delay times of DAD-FF can be measured by v(di_1) and v(di_2).
+	SET detection can be observed by comparing v(qo_1) and v(qo_2).
+	
+	
+	
+How to adjust the delay time of DAD-FF?
+=======================================================
+- There are 3 ways to adjust the delay time of DAD-FF:
+	1. Changing the reference-voltage connection of VCP and VCN:
+		In line 19 and line 57 of DADFF_56ps.sp, Vref* can be substituted by Vref1 to Vref5.
+	2. Changing the transistor sizes of RVG:
+		In line 64 to line 69 of DADFF_56ps.sp, the width of transistors can be adjusted.
+	3. If 5 reference voltages is not sufficient enough, numbers of transistor in RVG can be extended.
+		For example (7 reference voltages):
+			Mref00 VDD VDD Vref1 VSS    
+			Mref01 Vref1 Vref1 Vref2 VSS
+			Mref02 Vref2 Vref2 Vref3 VSS
+			Mref03 Vref3 Vref3 Vref4 VSS
+			Mref04 Vref4 Vref4 Vref5 VSS
+			Mref04 Vref5 Vref5 Vref6 VSS
+			Mref04 Vref6 Vref6 Vref7 VSS
+			Mref05 Vref7 Vref7 VSS VSS
