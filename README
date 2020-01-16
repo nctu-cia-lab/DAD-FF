@@ -67,6 +67,6 @@ How to adjust the delay time of DAD-FF?
 			Mref02 Vref2 Vref2 Vref3 VSS
 			Mref03 Vref3 Vref3 Vref4 VSS
 			Mref04 Vref4 Vref4 Vref5 VSS
-			Mref04 Vref5 Vref5 Vref6 VSS
-			Mref04 Vref6 Vref6 Vref7 VSS
-			Mref05 Vref7 Vref7 VSS VSS
+			Mref05 Vref5 Vref5 Vref6 VSS
+			Mref06 Vref6 Vref6 Vref7 VSS
+			Mref07 Vref7 Vref7 VSS VSS
