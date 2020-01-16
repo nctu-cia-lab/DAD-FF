@@ -1,11 +1,11 @@
 Delay-Adjustable D-Flip-Flop (named DAD-FF) is a radiation-hardened component 
 where the robustness can be adjusted arbitrarily. Details can be found in the 
 paper, "DAD-FF: Hardening Designs by Delay-Adjustable D-Flip-Flop for Soft-
-Error-Rate Reduction", which appears in IEEE TVLSI. To make DAD-FF capable 
-of utilizing by other designers who are interested in radiation hardening,
-a baseline DAD-FF built upon NanGate FreePDK45 cell library is provided, as 
-described in DADFF_56ps.sp. This document explains the use of DAD-FF including
-the delay-time adjustment to meet your specification.
+Error-Rate Reduction", https://doi.org/10.1109/TVLSI.2019.2962080, which 
+appears in IEEE TVLSI. To make DAD-FF capable of utilizing by other designers 
+who are interested in radiation hardening, a baseline DAD-FF built upon NanGate 
+FreePDK45 cell library is provided, as described in DADFF_56ps.sp. This document
+explains the use of DAD-FF including the delay-time adjustment to meet your specification.
 
 
 How to build the sample DAD-FF: DADFF_56ps.sp?
